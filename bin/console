@@ -1,14 +1,21 @@
 #!/usr/bin/env ruby
 
 require "bundler/setup"
+require "rspec/core"
+require "table_print"
 require "specmagick"
+
+Specmagick.configure do |conf|
+  conf.db = '/Users/wiz/src/bewe/roi/spec/specmagick/db.sqlite'
+end
+
+DB = Specmagick::Models::Test.db
 
 # You can add fixtures and/or initialization code here to make experimenting
 # with your gem easier. You can also use a different console, if you like.
 
-# (If you use this, don't forget to add pry to your Gemfile!)
-# require "pry"
-# Pry.start
+#%w[ Test Tag TestOutcome TestRun ].each { |k| eval("#{k} = Specmagick::Models::#{k}") }
 
-require "irb"
-IRB.start
+# (If you use this, don't forget to add pry to your Gemfile!)
+require "pry"
+Pry.start

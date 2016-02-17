@@ -1,5 +1,16 @@
 require "specmagick/version"
 
 module Specmagick
-  # Your code goes here...
+  require 'specmagick/util'
+  require 'specmagick/configuration'
+
+  def self.configure
+    yield conf
+    require 'specmagick/models'
+  end
+
+  def self.conf
+    @conf ||= Configuration.new
+  end
+
 end

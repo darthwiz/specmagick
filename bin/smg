@@ -1,0 +1,56 @@
+#!/usr/bin/env ruby
+require 'specmagick'
+require 'escort'
+require 'specmagick/cli'
+require 'pry'
+
+Escort::App.create do |app|
+
+  app.command :run do |command|
+    command.options do |opts|
+      opts.opt :dry_run, "dry run", long: '--dry-run', type: :flag
+      opts.opt :tag, "with tags", long: '--tag', short: '-t', type: :string, multi: true
+    end
+    command.action do |options, arguments|
+      Specmagick::CLI::Run.new(options, arguments).execute
+    end
+  end
+
+  app.command :search do |command|
+    command.options do |opts|
+      opts.opt :tag, "with tags", long: '--tag', short: '-t', type: :string, multi: true
+      opts.opt :detailed, "detailed search", long: '--detailed', short: '-d', type: :flag
+    end
+    command.action do |options, arguments|
+      Specmagick::CLI::Search.new(options, arguments).execute
+    end
+  end
+
+  app.command :init do |command|
+    command.options do |opts|
+      opts.opt :force, "force creation of database", long: '--force', type: :flag
+    end
+    command.action do |options, arguments|
+      Specmagick::CLI::Init.new(options, arguments).execute
+    end
+  end
+
+  app.command :tags do |command|
+    command.options do |opts|
+      opts.opt :intersections, "show intersections", short: '-i', long: '--intersections', type: :flag
+    end
+    command.action do |options, arguments|
+      Specmagick::CLI::Tags.new(options, arguments).execute
+    end
+  end
+
+  app.command :vcr do |command|
+    command.options do |opts|
+      opts.opt :check, "check stale cassettes", long: '--check', type: :flag
+    end
+    command.action do |options, arguments|
+      Specmagick::CLI::VCR.new(options, arguments).execute
+    end
+  end
+
+end
