@@ -29,6 +29,7 @@ Escort::App.create do |app|
   app.command :init do |command|
     command.options do |opts|
       opts.opt :force, "force creation of database", long: '--force', type: :flag
+      opts.opt :scan, "scan tests", long: '--scan', type: :flag
     end
     command.action do |options, arguments|
       Specmagick::CLI::Init.new(options, arguments).execute

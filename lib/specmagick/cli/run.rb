@@ -9,7 +9,7 @@ module Specmagick
       end
 
       def computed_args
-        args  = [ '-f', 'Specmagick::Formatter' ]
+        args  = [ '-f', 'Specmagick::Formatters::Documentation' ]
         args += [ '--dry-run' ] if command_options[:dry_run]
         args += tagged_tests.map { |t| t.location } if using_tags?
         args += ((arguments.empty? && !using_tags?) ? %w(spec) : arguments)

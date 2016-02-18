@@ -10,9 +10,19 @@ module Specmagick
           delete_db_if_present
           migrate_initial_schema
         end
+        scan_tests if scan?
       end
 
       private
+
+      def scan?
+        command_options[:scan]
+      end
+
+      def scan_tests
+        require 'rspec/core'
+        RSpec::Core::Runner.run([ '-f', 'Specmagick::Formatters::Scanner', '--dry-run', spec_dir.to_s ])
+      end
 
       def migrate_initial_schema
         Sequel.extension :migration
