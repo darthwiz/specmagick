@@ -1,12 +1,11 @@
 module Specmagick
   module CLI
-    require 'table_print'
     class VCR < Base
 
       def execute
         if check?
           filenames = cassettes_without_tests.map { |i| vcr_dir.join("#{i}.yml").relative_path_from(Pathname.new(Dir.pwd)) }
-          tp filenames.map { |i| Struct.new(:filename).new(i) }, filename: { width: filenames.map { |i| i.to_s.length }.max }
+          filenames.each { |i| puts i }
         end
       end
 

@@ -1,5 +1,7 @@
 module Specmagick
   module CLI
+    require 'tty-table'
+    require 'tty-screen'
     require 'specmagick/cli/base'
     require 'specmagick/cli/init'
     require 'specmagick/cli/tagged_tests'

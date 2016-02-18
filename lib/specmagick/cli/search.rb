@@ -1,31 +1,28 @@
 module Specmagick
   module CLI
-    require 'table_print'
     class Search < Base
       include TaggedTests
 
       def execute
-        if command_options[:detailed_given]
-          detailed
-        else
-          basic
-        end
+        detailed? ? detailed : basic
       end
 
       private
+
+      def detailed?
+        command_options[:detailed_given]
+      end
 
       def basic
         tagged_tests_map.keys.each { |loc| puts loc }
       end
 
       def detailed
-        loc_width = tagged_tests_structs.map { |i| i.location.length }.max
-        ln_width  = tagged_tests_structs.map { |i| i.lines.length }.max
-        tp tagged_tests_structs, { location: { width: loc_width } }, { lines: { width: ln_width } }
+        table = TTY::Table.new([ 'File', 'Lines' ], tagged_tests_map.map { |k, v| [ k, v.sort.map { |i| i.to_s }.join(' ') ] })
+        puts table.render(:ascii, alignments: [ :left, :right ])
       end
 
       def tagged_tests_structs
-        tagged_tests_map.map { |k, v| Struct.new(:location, :lines).new(k, v.map { |i| i.to_s }.join(' ')) }
       end
 
       def tagged_tests_map
