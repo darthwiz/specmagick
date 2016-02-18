@@ -26,13 +26,13 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "sequel"
-  spec.add_dependency "sqlite3"
-  spec.add_dependency "escort"
-  spec.add_dependency "table_print"
+  spec.add_dependency 'sequel', '~> 4.31'
+  spec.add_dependency 'sqlite3', '~> 1.3'
+  spec.add_dependency 'escort', '~> 0.4'
+  spec.add_dependency 'table_print', '~> 1.5'
+  spec.add_dependency 'rspec', '~> 3.4'
 
-  spec.add_development_dependency "bundler", "~> 1.10"
-  spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "rspec"
-  spec.add_development_dependency "pry"
+  spec.add_development_dependency 'bundler', '~> 1.10'
+  spec.add_development_dependency 'rake', '~> 10.0'
+  spec.add_development_dependency 'pry', '~> 0.10'
 end
