@@ -8,6 +8,7 @@ class Specmagick::Formatter < RSpec::Core::Formatters::DocumentationFormatter
   RSpec::Core::Formatters.register self, :example_started, :example_passed, :example_failed, :dump_summary
 
   def example_started(notification)
+    @errors ||= []
     @run    ||= Specmagick::Models::TestRun.create unless dry_run?
     ex        = notification[:example]
     tag_names = ex.metadata.select { |k, v| v == true }.keys
@@ -36,7 +37,14 @@ class Specmagick::Formatter < RSpec::Core::Formatters::DocumentationFormatter
   end
 
   def dump_summary(notification)
-    super
+    super.tap do
+      unless @errors.empty?
+        puts "\nCould not save the outcome for the following tests, probably because of duplicated descriptions:"
+        @errors.map { |i| i.location }.sort.each do |test|
+          puts test
+        end
+      end
+    end
   end
 
   private
@@ -54,12 +62,16 @@ class Specmagick::Formatter < RSpec::Core::Formatters::DocumentationFormatter
 
   def save_outcome(result)
     return if dry_run?
-    Specmagick::Models::TestOutcome.new.tap do |t|
-      t.test           = @test
-      t.run            = @run
-      t.success        = result.status == :passed
-      t.execution_time = result.run_time
-      t.save
+    begin
+      Specmagick::Models::TestOutcome.new.tap do |t|
+        t.test           = @test
+        t.run            = @run
+        t.success        = result.status == :passed
+        t.execution_time = result.run_time
+        t.save
+      end
+    rescue
+      @errors << @test
     end
   end
 
