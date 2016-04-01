@@ -9,6 +9,7 @@ module Specmagick
           ensure_data_dir
           delete_db_if_present
           migrate_initial_schema
+          align_migration_table
         end
         scan_tests if scan?
       end
@@ -40,6 +41,12 @@ module Specmagick
 
       def ensure_data_dir
         Dir.mkdir(data_dir) unless data_dir_exists?
+      end
+
+      def align_migration_table
+        Dir.glob(Pathname.new(migrations_dir).join('*')).reject { |i| i =~ /_schema\.rb$/ }.each do |fn|
+          DB[:schema_migrations].insert(filename: File.basename(fn))
+        end
       end
 
     end

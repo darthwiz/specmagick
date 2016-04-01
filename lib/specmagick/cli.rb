@@ -9,5 +9,6 @@ module Specmagick
     require 'specmagick/cli/search'
     require 'specmagick/cli/tags'
     require 'specmagick/cli/vcr'
+    require 'specmagick/cli/migrate'
   end
 end
