@@ -10,6 +10,9 @@ Escort::App.create do |app|
     command.options do |opts|
       opts.opt :dry_run, "dry run", long: '--dry-run', type: :flag
       opts.opt :tag, "with tags", long: '--tag', short: '-t', type: :string, multi: true
+      opts.opt :list_latest, "list latest runs", long: '--list-latest', type: :flag
+      opts.opt :list_named, "list named runs", long: '--list-named', type: :flag
+      opts.opt :set_name, "assign a name to a test run", long: '--set-name', type: :string
     end
     command.action do |options, arguments|
       Specmagick::CLI::Run.new(options, arguments).execute
