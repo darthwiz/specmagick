@@ -11,6 +11,8 @@ module Specmagick
           list_named
         elsif setting_name?
           set_name
+        elsif rerunning_failed?
+          rerun_failed
         else
           RSpec::Core::Runner.run(computed_args)
         end
@@ -46,6 +48,16 @@ module Specmagick
         run = id == 'last' ? Specmagick::Models::TestRun.last : Specmagick::Models::TestRun.with_pk!(id)
         run.name = name
         run.save
+      end
+
+      def rerun_failed
+        run  = Specmagick::Models::TestRun.where(name: command_options[:rerun_failed]).last
+        args = computed_args.tap(&:pop) + run.failures.map { |i| i.test.location }
+        RSpec::Core::Runner.run(args)
+      end
+
+      def rerunning_failed?
+        command_options[:rerun_failed_given]
       end
 
       def listing_latest?
