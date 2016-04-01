@@ -27,6 +27,7 @@ Sequel.migration do
     
     create_table(:test_runs) do
       primary_key :id
+      String :name, :size=>80
       DateTime :created_at
     end
     
