@@ -10,5 +10,6 @@ module Specmagick
     require 'specmagick/cli/tags'
     require 'specmagick/cli/vcr'
     require 'specmagick/cli/migrate'
+    require 'specmagick/cli/console'
   end
 end
