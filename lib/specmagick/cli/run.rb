@@ -51,7 +51,12 @@ module Specmagick
       end
 
       def rerun_failed
-        run  = Specmagick::Models::TestRun.where(name: command_options[:rerun_failed]).last
+        tag  = command_options[:rerun_failed]
+        if tag.to_i > 0
+          run = Specmagick::Models::TestRun.with_pk!(tag)
+        else
+          run = Specmagick::Models::TestRun.where(name: tag).last
+        end
         args = computed_args.tap(&:pop) + run.failures.map { |i| i.test.location }
         RSpec::Core::Runner.run(args)
       end
