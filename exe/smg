@@ -14,6 +14,7 @@ Escort::App.create do |app|
       opts.opt :list_named, "list named runs", long: '--list-named', type: :flag
       opts.opt :set_name, "assign a name to a test run", long: '--set-name', type: :string
       opts.opt :rerun_failed, "rerun a run's failures", short: '-f', long: '--rerun-failed', type: :string
+      opts.opt :rebuild_vcr, "rebuild VCR cassettes", long: '--rebuild-vcr', type: :flag
     end
     command.action do |options, arguments|
       Specmagick::CLI::Run.new(options, arguments).execute

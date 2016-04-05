@@ -57,8 +57,16 @@ module Specmagick
         else
           run = Specmagick::Models::TestRun.where(name: tag).last
         end
+        rebuild_cassettes(run.failures) if rebuilding_vcr?
         args = computed_args.tap(&:pop) + run.failures.map { |i| i.test.location }
         RSpec::Core::Runner.run(args)
+      end
+
+      def rebuild_cassettes(outcomes)
+        outcomes.each do |outcome|
+          path = Pathname.new(vcr_dir).join("#{outcome.test.name}.yml")
+          FileUtils.rm(path) if File.exists?(path)
+        end
       end
 
       def rerunning_failed?
@@ -75,6 +83,10 @@ module Specmagick
 
       def setting_name?
         command_options[:set_name_given]
+      end
+
+      def rebuilding_vcr?
+        command_options[:rebuild_vcr_given]
       end
 
       def computed_args
