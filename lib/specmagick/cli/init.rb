@@ -16,6 +16,10 @@ module Specmagick
 
       private
 
+      def configure_db
+        super rescue nil
+      end
+
       def scan?
         command_options[:scan]
       end
