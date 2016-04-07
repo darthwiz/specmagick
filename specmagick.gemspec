@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'escort', '~> 0.4'
   spec.add_dependency 'tty-table', '~> 0.5'
   spec.add_dependency 'tty-screen', '~> 0.5'
-  spec.add_dependency 'rspec', '~> 3.4'
+  spec.add_dependency 'rspec', '>= 3.0'
 
   spec.add_development_dependency 'bundler', '~> 1.10'
   spec.add_development_dependency 'rake', '~> 10.0'
