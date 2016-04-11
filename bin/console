@@ -2,11 +2,10 @@
 
 require "bundler/setup"
 require "rspec/core"
-require "table_print"
 require "specmagick"
 
 Specmagick.configure do |conf|
-  conf.db = '/Users/wiz/src/bewe/roi/spec/specmagick/db.sqlite'
+  conf.db = 'tmp/db.sqlite'
 end
 
 DB = Specmagick::Models::Test.db
