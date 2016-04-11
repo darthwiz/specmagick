@@ -5,8 +5,13 @@ require 'specmagick/cli'
 require 'pry'
 
 Escort::App.create do |app|
+  app.version Specmagick::VERSION
+  app.summary "makes you live with rspec a little easier."
+  app.description "(description)"
 
   app.command :run do |command|
+    command.summary "run tests and manage test runs."
+    command.description nil
     command.options do |opts|
       opts.opt :dry_run, "dry run", long: '--dry-run', type: :flag
       opts.opt :tag, "with tags", long: '--tag', short: '-t', type: :string, multi: true
@@ -22,6 +27,8 @@ Escort::App.create do |app|
   end
 
   app.command :search do |command|
+    command.summary "search tests by tag."
+    command.description nil
     command.options do |opts|
       opts.opt :tag, "with tags", long: '--tag', short: '-t', type: :string, multi: true
       opts.opt :detailed, "detailed search", long: '--detailed', short: '-d', type: :flag
@@ -32,6 +39,8 @@ Escort::App.create do |app|
   end
 
   app.command :init do |command|
+    command.summary "initialize the .specmagick working folder."
+    command.description nil
     command.options do |opts|
       opts.opt :force, "force creation of database", long: '--force', type: :flag
       opts.opt :scan, "scan tests", long: '--scan', type: :flag
@@ -42,6 +51,8 @@ Escort::App.create do |app|
   end
 
   app.command :tags do |command|
+    command.summary "show list of tags."
+    command.description nil
     command.options do |opts|
       opts.opt :intersections, "show intersections", short: '-i', long: '--intersections', type: :flag
     end
@@ -51,6 +62,8 @@ Escort::App.create do |app|
   end
 
   app.command :vcr do |command|
+    command.summary "manage VCR cassettes."
+    command.description nil
     command.options do |opts|
       opts.opt :check, "check stale cassettes", long: '--check', type: :flag
     end
@@ -60,12 +73,16 @@ Escort::App.create do |app|
   end
 
   app.command :migrate do |command|
+    command.summary "migrate Specmagick database to a newer version."
+    command.description nil
     command.action do |options, arguments|
       Specmagick::CLI::Migrate.new(options, arguments).execute
     end
   end
 
   app.command :console do |command|
+    command.summary "open a debug console."
+    command.description nil
     command.action do |options, arguments|
       Specmagick::CLI::Console.new(options, arguments).execute
     end
