@@ -25,7 +25,7 @@ module Specmagick
         tag_names = example.metadata.select { |k, v| v == true }.keys
         tags      = tag_names.map { |tag| Specmagick::Models::Tag.find_or_create(name: tag.to_s) }
         @test     = Specmagick::Models::Test.find_or_create(name: test_name(example)).tap do |test|
-          test.position    = example.id
+          test.position    = example.id rescue nil
           test.location    = example.location
           test.description = example.full_description
           test.save
