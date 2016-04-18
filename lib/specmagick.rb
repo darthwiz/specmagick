@@ -1,7 +1,7 @@
 require "specmagick/version"
 
 module Specmagick
-  require 'specmagick/util'
+  require 'specmagick/helpers'
   require 'specmagick/configuration'
 
   def self.configure

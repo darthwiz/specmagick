@@ -16,7 +16,7 @@ module Specmagick
       end
 
       def test_name(example)
-        Specmagick::Util.test_name(example)
+        Specmagick::Helpers.test_name(example)
       end
 
       def register_test(example)
