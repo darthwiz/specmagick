@@ -44,11 +44,11 @@ module Specmagick
       end
 
       def spec_dir
-        Pathname.new(Dir.pwd).join('spec')
+        Specmagick::Helpers.spec_dir
       end
 
       def vcr_dir
-        spec_dir.join('fixtures/vcr')
+        Specmagick::Helpers.vcr_dir
       end
 
     end
