@@ -9,6 +9,17 @@ Escort::App.create do |app|
   app.summary "makes you live with rspec a little easier."
   app.description "(description)"
 
+  app.options do |opts|
+    opts.opt :dry_run, "dry run", long: '--dry-run', type: :flag
+    opts.opt :tag, "with tags", long: '--tag', short: '-t', type: :string, multi: true
+    opts.opt :rerun_failed, "rerun a run's failures", short: '-f', long: '--rerun-failed', type: :string
+    opts.opt :rebuild_vcr, "rebuild VCR cassettes", long: '--rebuild-vcr', type: :flag
+  end
+
+  app.action do |options, arguments|
+    Specmagick::CLI::Run.new(options, arguments).execute
+  end
+
   app.command :run do |command|
     command.summary "run tests and manage test runs."
     command.description nil
