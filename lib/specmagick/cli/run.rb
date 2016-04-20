@@ -54,6 +54,8 @@ module Specmagick
         tag  = command_options[:rerun_failed]
         if tag.to_i > 0
           run = Specmagick::Models::TestRun.with_pk!(tag)
+        elsif tag == 'last'
+          run = Specmagick::Models::TestRun.last
         else
           run = Specmagick::Models::TestRun.where(name: tag).last
         end
