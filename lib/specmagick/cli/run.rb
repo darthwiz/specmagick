@@ -5,6 +5,7 @@ module Specmagick
       include TaggedTests
 
       def execute
+        Specmagick::CLI.action = self
         if listing_latest?
           list_latest
         elsif listing_named?

@@ -11,5 +11,14 @@ module Specmagick
     require 'specmagick/cli/vcr'
     require 'specmagick/cli/migrate'
     require 'specmagick/cli/console'
+
+    def self.action=(action)
+      @action = action
+    end
+
+    def self.action
+      @action
+    end
+
   end
 end

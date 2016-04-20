@@ -7,7 +7,9 @@ class Specmagick::Formatters::Documentation < RSpec::Core::Formatters::Documenta
   RSpec::Core::Formatters.register self, :example_started, :example_passed, :example_failed, :dump_summary
 
   def example_started(notification)
-    register_test(notification.example)
+    test = notification.example
+    remove_vcr_cassette_if_needed(test)
+    register_test(test)
   end
 
   def example_passed(notification)

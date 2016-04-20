@@ -50,6 +50,34 @@ module Specmagick
         end
       end
 
+      def smg_action
+        Specmagick::CLI.action
+      end
+
+      def vcr_dir
+        Specmagick::Helpers.vcr_dir
+      end
+
+      def vcr_cassette_name(test)
+        Specmagick::Helpers.test_name(test)
+      end
+
+      def vcr_cassette_path(test)
+        vcr_dir.join("#{vcr_cassette_name(test)}.yml")
+      end
+
+      def vcr_cassette_exists?(test)
+        File.exists?(vcr_cassette_path(test))
+      end
+
+      def rebuilding_vcr?
+        smg_action.send(:rebuilding_vcr?) rescue false
+      end
+
+      def remove_vcr_cassette_if_needed(test)
+        FileUtils.rm(vcr_cassette_path(test)) if rebuilding_vcr? && vcr_cassette_exists?(test)
+      end
+
     end
   end
 end
