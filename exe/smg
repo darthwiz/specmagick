@@ -14,6 +14,7 @@ Escort::App.create do |app|
     opts.opt :tag, "with tags", long: '--tag', short: '-t', type: :string, multi: true
     opts.opt :rerun_failed, "rerun a run's failures", short: '-f', long: '--rerun-failed', type: :string
     opts.opt :rebuild_vcr, "rebuild VCR cassettes", long: '--rebuild-vcr', type: :flag
+    opts.opt :live, "don't use VCR", long: '--live', type: :flag
   end
 
   app.action do |options, arguments|
@@ -31,6 +32,7 @@ Escort::App.create do |app|
       opts.opt :set_name, "assign a name to a test run", long: '--set-name', type: :string
       opts.opt :rerun_failed, "rerun a run's failures", short: '-f', long: '--rerun-failed', type: :string
       opts.opt :rebuild_vcr, "rebuild VCR cassettes", long: '--rebuild-vcr', type: :flag
+      opts.opt :live, "don't use VCR", long: '--live', type: :flag
     end
     command.action do |options, arguments|
       Specmagick::CLI::Run.new(options, arguments).execute

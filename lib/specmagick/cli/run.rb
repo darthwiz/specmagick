@@ -6,6 +6,7 @@ module Specmagick
 
       def execute
         Specmagick::CLI.action = self
+        ENV['SKIP_VCR'] = 'true' if live?
         if listing_latest?
           list_latest
         elsif listing_named?
@@ -71,6 +72,10 @@ module Specmagick
           path = Pathname.new(vcr_dir).join("#{test.name}.yml")
           FileUtils.rm(path) if File.exists?(path)
         end
+      end
+
+      def live?
+        command_options[:live_given]
       end
 
       def rerunning_failed?
