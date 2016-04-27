@@ -20,6 +20,7 @@ module Specmagick
       end
 
       def register_test(example)
+        @names  ||= []
         @errors ||= []
         @run    ||= Specmagick::Models::TestRun.create unless dry_run?
         tag_names = example.metadata.select { |k, v| v == true }.keys
@@ -32,6 +33,7 @@ module Specmagick
         end.tap do |test|
           tags.each { |tag| test.add_tag(tag) rescue nil }
           @run.add_test(test) if @run
+          @names << test.name
         end
       end
 
@@ -76,6 +78,10 @@ module Specmagick
 
       def remove_vcr_cassette_if_needed(test)
         FileUtils.rm(vcr_cassette_path(test)) if rebuilding_vcr? && vcr_cassette_exists?(test)
+      end
+
+      def purge_renamed_tests
+        Specmagick::Models::Test.exclude(name: @names).delete
       end
 
     end
